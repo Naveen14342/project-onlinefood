@@ -13,12 +13,7 @@ pipeline {
                 cleanWs()
             }
         }
-        stage ("Git Checkout") {
-            steps {
-                git 'https://github.com/Naveen14342/project-onlinefood.git'
-           
-           }   
-        }
+        
         stage ("sonar-qube analysis") {
             steps {
                 withVault(configuration: [vaultcredentialId: "vault-sonar"],
