@@ -16,7 +16,7 @@ pipeline {
         
         stage ("sonar-qube analysis") {
             steps {
-                withVault(configuration: [vaultcredentialId: "vault-sonar"],
+                withVault(configuration: [vaultCredentialId: "vault-sonar"],
                   vaultSecrets: [[path: "sonar/cred", secretValues:[ [envVar: "SONAR_user", vaultKey: "username"],
                   [envVar: "SONAR_password", vaultKey: "password"]]]])
                   {
