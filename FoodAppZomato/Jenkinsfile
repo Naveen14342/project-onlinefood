@@ -21,15 +21,15 @@ pipeline {
         }
         stage ("sonar-qube analysis") {
             steps {
-                withvault(configuration: [vaultcredentialid: "vault-sonar"],
-                  vaultSecrets: [[path: "sonar/cred", secretValues: [envVar: "SONAR_user", vaultKey: "username"],
-                  [envVar: "SONAR_password", vaultKey: "password"]]])
+                withVault(configuration: [vaultcredentialId: "vault-sonar"],
+                  vaultSecrets: [[path: "sonar/cred", secretValues:[ [envVar: "SONAR_user", vaultKey: "username"],
+                  [envVar: "SONAR_password", vaultKey: "password"]]]])
                   {
                     sh '''
-                      mvn clean install sonar:sonar -Dsonar.projectKey=zomato -Dsonar.host.url=http://localhost:9000 -Dsonar.login=$SONAR_user -Dsonar.password=$SONAR_password
+                      mvn clean install sonar:sonar -Dsonar.projectKey=zomato -Dsonar.host.url=http://172.31.37.74:80 -Dsonar.login=$SONAR_user -Dsonar.password=$SONAR_password
                     '''
-                  }
-                  {
+                  
+                  
                     script {
                         waitForQualityGate abortPipeline: false
                     }
