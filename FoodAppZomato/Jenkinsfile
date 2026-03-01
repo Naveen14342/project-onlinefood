@@ -44,7 +44,7 @@ pipeline {
         }
         stage ("snyk scan") {
             steps {
-                withvault(configuration: [vaultcredentialid: "vault-snyk-role"],
+                withVault(configuration: [vaultCredentialId: "vault-snyk-role"],
                   vaultSecrets: [[path: "snyk/token", secretValues: [envVar: "SNYK_TOKEN", vaultKey: "token"]]])
                   {
                     sh '''
@@ -75,9 +75,9 @@ pipeline {
 
         stage ("Publish Docker Image") {
             steps {
-                withvault(configuration: [vaultcredentialid: "vault-approle"],
-                  vaultSecrets: [[path: "jenkins/nexus", secretValues: [envVar: "nexus_user", vaultkey: "username"],
-                  [envVar: "nexus_password", vaultKey: "password"]]])
+                withVault(configuration: [vaultCredentialId: "vault-approle"],
+                  vaultSecrets: [[path: "jenkins/nexus", secretValues: [[envVar: "nexus_user", vaultkey: "username"],
+                  [envVar: "nexus_password", vaultKey: "password"]]]])
                   {
                     sh '''
                       docker login http://172.31.47.157:8081 -u $nexus_user -p $nexus_password
