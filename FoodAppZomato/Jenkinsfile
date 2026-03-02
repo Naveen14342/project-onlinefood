@@ -9,9 +9,15 @@ pipeline {
         SCANNER_HOME=tool 'sonar-scanner'
     }
     stages {
-        stage ("clean workspace") {
+        
+
+        stage ("debug workspace") {
             steps {
-                cleanWs()
+                sh "ls -la"
+                sh "pwd"
+                sh 'find . -maxdepth 2 -type d'
+
+                
             }
         }
         
