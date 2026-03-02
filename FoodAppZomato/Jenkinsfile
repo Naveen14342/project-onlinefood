@@ -17,13 +17,15 @@ pipeline {
         
         stage ("sonar-qube analysis") {
             steps {
-                withVault(configuration: [vaultCredentialId: "vault-jenkins"],
-                  vaultSecrets: [[path: "secret/sonar", engineVersion: 2, secretValues:[ [envVar: "SONAR_TOKEN", vaultKey: "token"],
-                  ]]])
-                  {
-                    sh '''
-                      $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=zomato \
-                    -Dsonar.projectKey=zomato -Dsonar.sources=. -Dsonar.login=${SONAR_TOKEN} 
+                  withSonarQubeEnv('sonarserver') {
+
+                    withVault(configuration: [vaultCredentialId: "vault-jenkins"],
+                      vaultSecrets: [[path: "secret/sonar", engineVersion: 2, secretValues:[ [envVar: "SONAR_TOKEN", vaultKey: "token"],
+                      ]]]) {
+                  
+                        sh '''
+                          $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=zomato \
+                         -Dsonar.projectKey=zomato -Dsonar.sources=. -Dsonar.login=${SONAR_TOKEN} 
                     '''
                   
                   
@@ -32,6 +34,7 @@ pipeline {
                     }
                   }
             }
+        }
         }
 
         stage ( "Install NPM Dependencies") {
