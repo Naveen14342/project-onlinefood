@@ -39,7 +39,10 @@ pipeline {
 
         stage ( "Install NPM Dependencies") {
             steps {
-                sh "npm install"
+                sh '''
+                  cd FoodAppZomato
+                    npm install
+                '''
             }
         }
         stage ("snyk scan") {
