@@ -18,7 +18,7 @@ pipeline {
         stage ("sonar-qube analysis") {
             steps {
                 withVault(configuration: [vaultCredentialId: "vault-jenkins"],
-                  vaultSecrets: [[path: "secret/sonar", engineVersion: 1, secretValues:[ [envVar: "SONAR_TOKEN", vaultKey: "token"],
+                  vaultSecrets: [[path: "secret/sonar", engineVersion: 2, secretValues:[ [envVar: "SONAR_TOKEN", vaultKey: "token"],
                   ]]])
                   {
                     sh '''
