@@ -17,8 +17,8 @@ pipeline {
         
         stage ("sonar-qube analysis") {
             steps {
-                withVault(configuration: [vaultCredentialId: "vault-sonar"],
-                  vaultSecrets: [[path: "sonar/cred", engineVersion: 2, secretValues:[ [envVar: "SONAR_TOKEN", vaultKey: "token"],
+                withVault(configuration: [vaultCredentialId: "vault-jenkins"],
+                  vaultSecrets: [[path: "secret/sonar", engineVersion: 1, secretValues:[ [envVar: "SONAR_TOKEN", vaultKey: "token"],
                   ]]])
                   {
                     sh '''
@@ -41,8 +41,8 @@ pipeline {
         }
         stage ("snyk scan") {
             steps {
-                withVault(configuration: [vaultCredentialId: "vault-snyk-role"],
-                  vaultSecrets: [[path: "snyk/token", secretValues: [envVar: "SNYK_TOKEN", vaultKey: "token"]]])
+                withVault(configuration: [vaultCredentialId: "vault-jenkins"],
+                  vaultSecrets: [[path: "secret/snyk",engineVersion: 1, secretValues: [envVar: "SNYK_TOKEN", vaultKey: "snyk-token"]]])
                   {
                     sh '''
                       snyk test --all-projects --severity-threshold=high --json > snyk_report.json
@@ -72,8 +72,8 @@ pipeline {
 
         stage ("Publish Docker Image") {
             steps {
-                withVault(configuration: [vaultCredentialId: "vault-approle"],
-                  vaultSecrets: [[path: "jenkins/nexus", secretValues: [[envVar: "nexus_user", vaultkey: "username"],
+                withVault(configuration: [vaultCredentialId: "vault-jenkins"],
+                  vaultSecrets: [[path: "secret/nexus",engineVersion: 1, secretValues: [[envVar: "nexus_user", vaultkey: "username"],
                   [envVar: "nexus_password", vaultKey: "password"]]]])
                   {
                     sh '''
