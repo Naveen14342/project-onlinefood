@@ -3,7 +3,7 @@ pipeline {
     tools {
         jdk 'Jenkins-java17'
         nodejs 'node23'
-        maven 'Jenkin-maven'
+        maven Jenkin-maven'
     }
     environment {
         SCANNER_HOME=tool 'sonar-scanner'
@@ -22,7 +22,8 @@ pipeline {
                   [envVar: "SONAR_password", vaultKey: "password"]]]])
                   {
                     sh '''
-                      mvn clean install sonar:sonar -Dsonar.projectKey=zomato -Dsonar.host.url=http://172.31.37.74:80 -Dsonar.login=$SONAR_user -Dsonar.password=$SONAR_password
+                      $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=zomato \
+                    -Dsonar.projectKey=zomato -Dsonar.login=${SONAR_TOKEN}
                     '''
                   
                   
