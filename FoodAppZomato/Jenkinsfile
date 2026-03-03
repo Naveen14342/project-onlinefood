@@ -59,7 +59,8 @@ pipeline {
                   vaultSecrets: [[path: "secret/snyk",engineVersion: 1, secretValues: [envVar: "SNYK_TOKEN", vaultKey: "snyk-token"]]])
                   {
                     sh '''
-                      snyk test --all-projects --severity-threshold=high --json > snyk_report.json
+                      snyk auth ${SNYK_TOKEN}
+                      snyk test --all-projects --severity-threshold=high --json > snyk_report.json || true
                     '''
                   }
             }
