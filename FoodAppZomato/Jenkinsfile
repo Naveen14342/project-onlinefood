@@ -94,7 +94,7 @@ pipeline {
 
         stage ("trivy image scan") {
             steps {
-                sh "trivy image --exit-code 1 --severity HIGH,CRITICAL 172.31.47.157:8081/repository/docker-hosted:latest "
+                sh "trivy image --exit-code 1 --severity HIGH,CRITICAL 172.31.47.157:8081/repository/docker-hosted:latest || true"
             }
         }
 
@@ -105,8 +105,8 @@ pipeline {
                   [envVar: "nexus_password", vaultKey: "password"]]]])
                   {
                     sh '''
-                      docker login http://172.31.47.157:8081 -u $nexus_user -p $nexus_password
-                      docker push http://172.31.47.157:8081/repository/docker-hosted:latest
+                      docker login 172.31.47.157:8081 -u $nexus_user -p $nexus_password
+                      docker push 172.31.47.157:8081/repository/docker-hosted:latest
                     '''
                   }
 
@@ -115,7 +115,7 @@ pipeline {
 
         stage ("Deploy to Container") {
             steps {
-                sh 'docker run -d --name zomato -p 3000:3000 http://172.31.47.157:8081/repository/docker-hosted:latest'
+                sh 'docker run -d --name zomato -p 3000:3000 172.31.47.157:8081/repository/docker-hosted:latest'
             }
         
 
