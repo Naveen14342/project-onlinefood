@@ -53,6 +53,15 @@ pipeline {
                 '''
             }
         }
+
+        stage ("install snyk") {
+            steps {
+                sh '''
+                  npm install -g snyk"
+                  snyk --version
+                '''
+            }
+        }
         stage ("snyk scan") {
             steps {
                 withVault(configuration: [vaultCredentialId: "vault-jenkins"],
