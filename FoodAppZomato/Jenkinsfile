@@ -57,7 +57,7 @@ pipeline {
         stage ("install snyk") {
             steps {
                 sh '''
-                  npm install -g snyk"
+                  npm install -g snyk
                   snyk --version
                 '''
             }
