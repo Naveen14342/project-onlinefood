@@ -87,12 +87,14 @@ pipeline {
                 dir('FoodAppZomato') {
 
                   sh "docker build -t 172.31.47.157:8081/repository/docker-hosted:latest  ."
+
+                }
             }
         }
 
         stage ("trivy image scan") {
             steps {
-                sh "trivy image --exit-code 1 --severity HIGH,CRITICAL http://172.31.47.157:8081/repository/docker-hosted:latest "
+                sh "trivy image --exit-code 1 --severity HIGH,CRITICAL 172.31.47.157:8081/repository/docker-hosted:latest "
             }
         }
 
