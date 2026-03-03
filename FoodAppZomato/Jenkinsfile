@@ -106,7 +106,7 @@ pipeline {
                   {
                     sh '''
                       echo $nexus_password | docker login 172.31.47.157:8082 -u $nexus_user --password-stdin
-                      docker push 172.31.47.157:8082/docker-hosted/online-food:latest
+                      docker push 172.31.47.157:8082/docker-hosted:latest
                     '''
                   }
 
