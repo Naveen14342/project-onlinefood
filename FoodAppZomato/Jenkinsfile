@@ -101,7 +101,7 @@ pipeline {
         stage ("Publish Docker Image") {
             steps {
                 withVault(configuration: [vaultCredentialId: "vault-jenkins"],
-                  vaultSecrets: [[path: "secret/nexus",engineVersion: 1, secretValues: [[envVar: "nexus_user", vaultkey: "username"],
+                  vaultSecrets: [[path: "secret/nexus",engineVersion: 2, secretValues: [[envVar: "nexus_user", vaultKey: "username"],
                   [envVar: "nexus_password", vaultKey: "password"]]]])
                   {
                     sh '''
