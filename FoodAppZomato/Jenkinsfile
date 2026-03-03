@@ -56,7 +56,7 @@ pipeline {
         stage ("snyk scan") {
             steps {
                 withVault(configuration: [vaultCredentialId: "vault-jenkins"],
-                  vaultSecrets: [[path: "secret/snyk",engineVersion: 1, secretValues: [[envVar: "SNYK_TOKEN", vaultKey: "snyk-token"]]]])
+                  vaultSecrets: [[path: "secret/snyk",engineVersion: 2, secretValues: [[envVar: "SNYK_TOKEN", vaultKey: "snyk-token"]]]])
                   {
                     sh '''
                       snyk auth ${SNYK_TOKEN}
